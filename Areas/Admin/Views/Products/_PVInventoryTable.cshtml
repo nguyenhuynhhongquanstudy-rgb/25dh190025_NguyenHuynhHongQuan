@@ -1,0 +1,68 @@
+@model IEnumerable<_25dh190025_NguyenHuynhHongQuan.Models.Product>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle shadow-sm">
+        <thead>
+            <tr>
+                <th style="width: 10%;" class="text-center">Hình ảnh</th>
+                <th style="width: 25%;">Tên sản phẩm (Sách)</th>
+                <th style="width: 15%;">Chủng loại</th>
+                <th style="width: 12%;">Đơn giá</th>
+                <th style="width: 10%;" class="text-center">Đã bán</th>
+                <th style="width: 12%;" class="text-center">Số lượng tồn</th>
+                <th style="width: 16%;">Cập nhật tồn kho</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <img src="@item.ProductImage" alt="@item.ProductName" style="height: 60px; max-width: 60px; object-fit: contain; border-radius: 6px; background: #fafcfa; border: 1px solid #e2efe7; padding: 2px;" />
+                        </td>
+                        <td>
+                            <strong class="text-dark">@item.ProductName</strong>
+                            <small class="d-block text-muted">Mã SP: #@item.ProductID</small>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill px-3 py-1" style="background: #E8F5EE; color: #2D6A4F; font-weight: 600;">
+                                📖 @(item.Category != null ? item.Category.CategoryName : "")
+                            </span>
+                        </td>
+                        <td class="fw-bold" style="color: #1B4332;">@item.ProductPrice.ToString("N0") đ</td>
+                        <td class="text-center">
+                            <span class="badge rounded-pill bg-light text-dark border px-2 py-1">@item.SoldQuantity</span>
+                        </td>
+                        <td class="text-center">
+                            @if (item.Quantity > 0)
+                            {
+                                <span class="badge rounded-pill bg-success px-3 py-1">@item.Quantity</span>
+                            }
+                            else
+                            {
+                                <span class="badge rounded-pill bg-danger px-3 py-1">Cần nhập (0)</span>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("UpdateStock", "Products", new { area = "Admin" }, FormMethod.Post, new { @class = "d-flex gap-2 align-items-center" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@item.ProductID" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="0" class="form-control form-control-sm rounded-pill" style="width: 80px;" />
+                                <button type="submit" class="btn btn-primary btn-sm rounded-pill">Lưu</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-3">Không có sản phẩm nào trong danh sách này.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

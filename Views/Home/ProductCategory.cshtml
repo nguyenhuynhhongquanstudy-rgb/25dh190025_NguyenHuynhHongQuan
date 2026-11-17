@@ -1,0 +1,135 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.ProductSearchVM
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ViewBag.Categories as List<_25dh190025_NguyenHuynhHongQuan.Models.Category> ?? new List<_25dh190025_NguyenHuynhHongQuan.Models.Category>();
+    int? selectedCatId = ViewBag.SelectedCategoryID as int?;
+    string selectedCatName = ViewBag.SelectedCategoryName as string ?? "Tất cả sản phẩm";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css?v=@DateTime.Now.Ticks" />
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="container mt-3">
+    <div class="d-flex align-items-center justify-content-between p-3 mb-3 bg-white border rounded">
+        <div>
+            <h4 class="fw-bold mb-0" style="color: #1B4332;">DANH MỤC: @selectedCatName.ToUpper()</h4>
+        </div>
+        <span class="badge bg-success">
+            @(Model.Products != null ? Model.Products.TotalItemCount : 0) cuốn sách
+        </span>
+    </div>
+
+    <!-- Thanh chọn danh mục đơn giản -->
+    <div class="mb-3 p-3 bg-white rounded border">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <strong class="text-dark small">Thể loại: </strong>
+            <a href="@Url.Action("ProductCategory", "Home", new { categoryId = (int?)null })" 
+               class="btn btn-sm @(!selectedCatId.HasValue ? "btn-success" : "btn-outline-secondary")">
+               Tất cả
+            </a>
+            @foreach (var cat in categories)
+            {
+                bool isSelected = selectedCatId == cat.CategoryID;
+                <a href="@Url.Action("ProductCategory", "Home", new { categoryId = cat.CategoryID })" 
+                   class="btn btn-sm @(isSelected ? "btn-success" : "btn-outline-secondary")">
+                   @cat.CategoryName
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Bộ lọc tìm kiếm & khoảng giá -->
+    @using (Html.BeginForm("ProductCategory", "Home", FormMethod.Get, new { @class = "p-3 mb-4 bg-white rounded border" }))
+    {
+        <input type="hidden" name="categoryId" value="@selectedCatId" />
+        <div class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small fw-bold">Từ khóa</label>
+                <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Tên tác phẩm, tác giả..." />
+            </div>
+            <div class="col-md-2 col-6">
+                <label class="form-label small fw-bold">Giá từ (đ)</label>
+                <input type="number" name="minPrice" value="@Model.MinPrice" class="form-control" placeholder="0" />
+            </div>
+            <div class="col-md-2 col-6">
+                <label class="form-label small fw-bold">Đến giá (đ)</label>
+                <input type="number" name="maxPrice" value="@Model.MaxPrice" class="form-control" placeholder="Tối đa" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Sắp xếp</label>
+                <select name="sortOrder" class="form-select">
+                    <option value="name_asc" @(Model.SortOrder == "name_asc" ? "selected" : "")>Tên A - Z</option>
+                    <option value="name_desc" @(Model.SortOrder == "name_desc" ? "selected" : "")>Tên Z - A</option>
+                    <option value="price_asc" @(Model.SortOrder == "price_asc" ? "selected" : "")>Giá tăng dần</option>
+                    <option value="price_desc" @(Model.SortOrder == "price_desc" ? "selected" : "")>Giá giảm dần</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    Lọc kết quả
+                </button>
+            </div>
+        </div>
+    }
+
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <div class="row g-3">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="lproduct-item h-100">
+                        <div class="prod-img-box">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })">
+                                <img src="@product.ProductImage" alt="@product.ProductName" />
+                            </a>
+                        </div>
+                        <div class="prod-info-box">
+                            <div class="prod-details-group">
+                                <p class="prodPrice">
+                                    @product.ProductPrice.ToString("N0") đ
+                                </p>
+                                <p class="prodName">
+                                    <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" title="@product.ProductName">
+                                        @product.ProductName
+                                    </a>
+                                </p>
+                                <span class="prodCate">
+                                    @(product.Category != null ? product.Category.CategoryName : "Sách")
+                                </span>
+                                <p class="prodSale">
+                                    Tồn kho: <strong>@product.Quantity</strong>
+                                </p>
+                            </div>
+                            <div class="prod-actions">
+                                <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" class="btn-card-detail">Chi tiết</a>
+                                <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID, quantity = 1 })" class="btn-card-buy">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="pagination-container my-4">
+            @Html.PagedListPager(Model.Products, page => Url.Action("ProductCategory", new
+            {
+                page,
+                categoryId = selectedCatId,
+                searchTerm = Model.SearchTerm,
+                minPrice = Model.MinPrice,
+                maxPrice = Model.MaxPrice,
+                sortOrder = Model.SortOrder
+            }))
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-light text-center my-4 py-4 border">
+            <p class="mb-0 text-muted">Hiện tại chưa có sản phẩm nào thuộc mục này. Bạn có thể thêm sản phẩm từ trang Quản trị.</p>
+        </div>
+    }
+</div>

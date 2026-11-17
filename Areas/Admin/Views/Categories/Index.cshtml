@@ -1,0 +1,67 @@
+@model IEnumerable<_25dh190025_NguyenHuynhHongQuan.Models.Category>
+
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-between my-3">
+    <h2 class="bg-success text-white p-2 mb-0 flex-grow-1 me-3">
+        QUẢN LÝ DANH MỤC SẢN PHẨM
+    </h2>
+    <div>
+        @Html.ActionLink("+ Thêm danh mục mới", "Create", null, new { @class = "btn btn-success fw-semibold text-nowrap px-3 py-2" })
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-2">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-2">⚠️ @TempData["Error"]</div>
+}
+
+<div class="table-responsive mt-3">
+    <table class="table table-bordered table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 12%;" class="text-center">MÃ LOẠI</th>
+                <th style="width: 45%;">TÊN DANH MỤC</th>
+                <th style="width: 20%;" class="text-center">TỔNG SỐ TỰA SÁCH</th>
+                <th style="width: 23%;" class="text-center">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold text-muted">#@item.CategoryID</td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.CategoryName)</strong>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-light text-dark border px-2 py-1">
+                                @(item.Products != null ? item.Products.Count() : 0) cuốn
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm me-1" })
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.CategoryID }, new { @class = "btn btn-info btn-sm text-white me-1" })
+                            @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-3">Chưa có danh mục nào. Hãy bấm "+ Thêm danh mục mới" ở trên để tạo.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

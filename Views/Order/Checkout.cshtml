@@ -1,0 +1,143 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.CheckoutVM
+@{
+    ViewBag.Title = "Xác nhận đặt hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function enableAddressEdit() {
+        var group = document.getElementById("newAddressGroup");
+        if (group.style.display === "none" || group.style.display === "") {
+            group.style.display = "block";
+            document.getElementById("newShippingAddress").focus();
+        } else {
+            group.style.display = "none";
+        }
+    }
+
+    function updateShippingAddress() {
+        var newAddress = document.getElementById("newShippingAddress").value;
+        if (newAddress && newAddress.trim().length > 0) {
+            document.getElementById("shippingAddress").value = newAddress.trim();
+        }
+    }
+</script>
+
+<div class="container py-3">
+    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+        <h3 class="fw-bold text-dark mb-0">XÁC NHẬN ĐẶT HÀNG</h3>
+        <a href="@Url.Action("Index", "Cart")" class="btn btn-outline-secondary btn-sm">
+            ← Quay lại giỏ hàng
+        </a>
+    </div>
+
+    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { id = "checkoutForm", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.CustomerID)
+        @Html.HiddenFor(m => m.Username)
+        @Html.HiddenFor(m => m.OrderDate)
+
+        <div class="row g-4">
+            <!-- Cột trái: Thông tin nhận hàng & Thanh toán -->
+            <div class="col-lg-7">
+                <!-- Địa chỉ -->
+                <div class="card p-3 mb-3 bg-white border">
+                    <h5 class="fw-bold mb-3 pb-2 border-bottom">1. Thông tin giao hàng</h5>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Địa chỉ nhận hàng:</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.ShippingAddress, new
+                            {
+                                @class = "form-control",
+                                @readonly = "readonly",
+                                id = "shippingAddress"
+                            })
+                            <button type="button" class="btn btn-outline-secondary" onclick="enableAddressEdit()">
+                                Thay đổi
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="newAddressGroup" style="display: none;" class="p-2 bg-light rounded border mb-2">
+                        <label class="form-label small fw-bold">Nhập địa chỉ mới:</label>
+                        <div class="input-group">
+                            <input type="text" id="newShippingAddress" class="form-control" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..." />
+                            <button type="button" class="btn btn-success" onclick="updateShippingAddress()">
+                                Lưu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phương thức thanh toán (Không có QR code) -->
+                <div class="card p-3 bg-white border">
+                    <h5 class="fw-bold mb-3 pb-2 border-bottom">2. Phương thức thanh toán</h5>
+                    
+                    <div class="d-flex flex-column gap-2">
+                        <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer;">
+                            <input type="radio" name="paymentGroup" value="COD" checked class="form-check-input mt-0" onchange="document.getElementById('PaymentStatus').value = 'Chưa thanh toán';" />
+                            <span>Thanh toán tiền mặt khi nhận hàng (COD)</span>
+                        </label>
+
+                        <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer;">
+                            <input type="radio" name="paymentGroup" value="Bank" class="form-check-input mt-0" onchange="document.getElementById('PaymentStatus').value = 'Chờ xác nhận chuyển khoản';" />
+                            <span>Chuyển khoản ngân hàng</span>
+                        </label>
+
+                        <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer;">
+                            <input type="radio" name="paymentGroup" value="PayPal" class="form-check-input mt-0" onchange="document.getElementById('PaymentStatus').value = 'Đã thanh toán (PayPal)';" />
+                            <span>Cổng thanh toán PayPal</span>
+                        </label>
+                    </div>
+
+                    @Html.HiddenFor(m => m.PaymentStatus, new { id = "PaymentStatus", Value = "Chưa thanh toán" })
+                </div>
+            </div>
+
+            <!-- Cột phải: Tóm tắt đơn hàng -->
+            <div class="col-lg-5">
+                <div class="card p-3 bg-white border">
+                    <h5 class="fw-bold mb-3 pb-2 border-bottom">Đơn hàng của bạn</h5>
+
+                    <div style="max-height: 250px; overflow-y: auto;" class="mb-3">
+                        @if (Model.cart != null && Model.cart.Items != null)
+                        {
+                            foreach (var item in Model.cart.Items)
+                            {
+                                <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                    <div>
+                                        <div class="fw-semibold text-dark text-truncate" style="max-width: 220px;">@item.ProductName</div>
+                                        <small class="text-muted">SL: @item.Quantity x @item.UnitPrice.ToString("N0") đ</small>
+                                    </div>
+                                    <span class="fw-bold text-success">@item.TotalPrice.ToString("N0") đ</span>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tạm tính:</span>
+                        <strong>@Model.TotalAmount.ToString("N0") đ</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Vận chuyển:</span>
+                        <span class="text-success">Miễn phí</span>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold text-dark">Tổng cộng:</span>
+                        <span class="fs-4 fw-bold text-success">@Model.TotalAmount.ToString("N0") đ</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+                        Xác nhận đặt hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

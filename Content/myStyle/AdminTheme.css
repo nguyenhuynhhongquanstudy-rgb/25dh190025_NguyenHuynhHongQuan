@@ -1,0 +1,227 @@
+/* ================================================================
+   ADMIN THEME - CLEAN, SIMPLE & ELEGANT NATURE STYLE
+   Dự án: 25dh190025_NguyenHuynhHongQuan (Hồng Quân Admin)
+   ================================================================ */
+
+body {
+    background-color: #F8FAF9 !important;
+    color: #212529 !important;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+}
+
+/* NAVBAR ADMIN ĐƠN GIẢN, TRANG NHÃ */
+.navbar-dark {
+    background-color: #2D6A4F !important;
+    border-bottom: 2px solid #1B4332 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+.navbar-dark .navbar-brand {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+}
+
+.navbar-dark .nav-link {
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    padding: 7px 12px !important;
+    color: #E8F5EE !important;
+    border-radius: 4px !important;
+}
+
+.navbar-dark .nav-link:hover {
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* TIÊU ĐỀ TRANG ADMIN: ĐƠN GIẢN, GỌN GÀNG */
+h2.bg-success, 
+h2.admin-page-title,
+h2[style*="background-color: #dff0d8"] {
+    background: #EAF5EE !important;
+    color: #1B4332 !important;
+    border: 1px solid #D1EADE !important;
+    border-left: 4px solid #2D6A4F !important;
+    border-radius: 6px !important;
+    padding: 10px 16px !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    margin-top: 10px !important;
+    margin-bottom: 18px !important;
+}
+
+h4.bg-success,
+h4.bg-info,
+h5.bg-info {
+    background: #EAF5EE !important;
+    color: #1B4332 !important;
+    border: 1px solid #D1EADE !important;
+    border-left: 4px solid #40916C !important;
+    border-radius: 5px !important;
+    padding: 8px 14px !important;
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+/* BẢNG DỮ LIỆU ADMIN (TABLE) ĐƠN GIẢN, RÕ RÀNG */
+table.table {
+    background-color: #FFFFFF !important;
+    border: 1px solid #DEE2E6 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+    margin-top: 12px !important;
+}
+
+/* HEADER BẢNG ADMIN */
+table.table thead th,
+table.table th.bg-success,
+table thead th {
+    background-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+    border-color: #255841 !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.2px !important;
+    padding: 10px 12px !important;
+    vertical-align: middle !important;
+}
+
+table.bg-info,
+tbody.bg-info,
+tbody[style*="background-color: #d9edf7"] {
+    background-color: #FFFFFF !important;
+}
+
+table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #F9FCFA !important;
+}
+
+table.table-striped tbody tr:nth-of-type(even) {
+    background-color: #FFFFFF !important;
+}
+
+table.table-hover tbody tr:hover {
+    background-color: #EDF7F1 !important;
+}
+
+table.table td {
+    border-color: #E9ECEF !important;
+    vertical-align: middle !important;
+    color: #2D3748 !important;
+    padding: 10px 12px !important;
+    font-size: 0.92rem !important;
+}
+
+/* THẺ STAT CARD (DASHBOARD) ĐƠN GIẢN */
+.stat-card-eco {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 18px;
+    border: 1px solid #D8E7DF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-top: 3px solid #2D6A4F;
+}
+
+/* NÚT THAO TÁC TRONG BẢNG: VUÔNG VẮN GỌN GÀNG (CHUẨN 4PX) */
+.btn-sm {
+    border-radius: 4px !important;
+    padding: 4px 10px !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+}
+
+.btn-primary, 
+a.btn-primary {
+    background-color: #2D6A4F !important;
+    border-color: #255841 !important;
+    color: #FFFFFF !important;
+    box-shadow: none !important;
+}
+
+.btn-primary:hover,
+a.btn-primary:hover {
+    background-color: #1B4332 !important;
+    border-color: #163628 !important;
+}
+
+.btn-info,
+a.btn-info {
+    background-color: #0AA2C0 !important;
+    border-color: #0AA2C0 !important;
+    color: #FFFFFF !important;
+    box-shadow: none !important;
+}
+
+.btn-info:hover,
+a.btn-info:hover {
+    background-color: #0887A0 !important;
+    border-color: #0887A0 !important;
+}
+
+.btn-danger,
+a.btn-danger {
+    background-color: #DC3545 !important;
+    border-color: #DC3545 !important;
+    color: #FFFFFF !important;
+    box-shadow: none !important;
+}
+
+.btn-danger:hover,
+a.btn-danger:hover {
+    background-color: #BB2D3B !important;
+    border-color: #B02A37 !important;
+}
+
+.btn-success,
+a.btn-success {
+    background-color: #40916C !important;
+    border-color: #357A5A !important;
+    color: #FFFFFF !important;
+    border-radius: 4px !important;
+    padding: 6px 16px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+
+.btn-success:hover,
+a.btn-success:hover {
+    background-color: #2D6A4F !important;
+    border-color: #255841 !important;
+}
+
+/* KHUNG TÌM KIẾM ADMIN GỌN GÀNG */
+.admin-search-bar {
+    background: #FFFFFF;
+    padding: 14px;
+    border-radius: 6px;
+    border: 1px solid #D8E7DF;
+    margin-bottom: 16px;
+}
+
+/* Phân trang Admin */
+.pagination-container .pagination {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.pagination-container .pagination > li > a,
+.pagination-container .pagination > li > span {
+    border-radius: 4px !important;
+    color: #2D6A4F !important;
+    border: 1px solid #D8E7DF !important;
+    padding: 6px 12px !important;
+    font-size: 0.88rem !important;
+}
+
+.pagination-container .pagination > .active > a,
+.pagination-container .pagination > .active > span {
+    background-color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+}

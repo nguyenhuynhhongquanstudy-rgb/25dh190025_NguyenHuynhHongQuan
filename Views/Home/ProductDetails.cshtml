@@ -1,0 +1,93 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.ProductDetailsVM
+@{
+    ViewBag.Title = Model.product.ProductName + " - Chi tiết sách";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/myStyle/CustomerDetailProduct.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+<link href="~/Content/myStyle/CustomerHome.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+
+<div class="container py-3">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-white p-2 border rounded small">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")" class="text-success text-decoration-none">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("ProductCategory", "Home", new { categoryId = Model.product.CategoryID })" class="text-success text-decoration-none">@Model.product.Category.CategoryName</a></li>
+            <li class="breadcrumb-item active text-truncate" aria-current="page" style="max-width: 300px;">@Model.product.ProductName</li>
+        </ol>
+    </nav>
+
+    <!-- Main Detail Card -->
+    <div class="card p-4 border bg-white mb-4">
+        <div class="row g-4 align-items-start">
+            <!-- Left: Book Image -->
+            <div class="col-md-5 text-center">
+                <div class="p-3 bg-light rounded border">
+                    <img src="@Model.product.ProductImage" alt="@Model.product.ProductName" class="img-fluid" style="max-height: 350px; object-fit: contain;" />
+                </div>
+            </div>
+
+            <!-- Right: Details -->
+            <div class="col-md-7">
+                <span class="badge bg-light text-dark border mb-2">@Model.product.Category.CategoryName</span>
+                <h2 class="fw-bold text-dark mb-2" style="font-size: 1.6rem;">@Model.product.ProductName</h2>
+
+                <div class="text-muted small mb-3">
+                    <span>Đã bán: <strong>@(Model.product.SoldQuantity > 0 ? Model.product.SoldQuantity : Model.product.OrderDetails.Count)</strong></span>
+                    <span class="mx-2">|</span>
+                    <span>Tồn kho: <strong class="@(Model.product.Quantity > 0 ? "text-success" : "text-danger")">@(Model.product.Quantity > 0 ? Model.product.Quantity.ToString() : "Hết hàng")</strong></span>
+                </div>
+
+                <div class="p-3 bg-light rounded border mb-3">
+                    <span class="fs-3 fw-bold text-success">@Model.product.ProductPrice.ToString("N0")</span>
+                    <span class="text-muted"> đ</span>
+                </div>
+
+                <div class="my-3">
+                    <form action="@Url.Action("ProductDetails", "Home")" method="get">
+                        <input type="hidden" name="id" value="@Model.product.ProductID" />
+                        <div class="row align-items-center g-2 mb-3">
+                            <div class="col-auto">
+                                <label class="small fw-bold">Số lượng:</label>
+                            </div>
+                            <div class="col-auto">
+                                @Html.TextBoxFor(model => model.quantity, new
+                                {
+                                    @class = "form-control text-center fw-bold",
+                                    @type = "number",
+                                    @min = 1,
+                                    @max = Model.product.Quantity > 0 ? Model.product.Quantity : 1,
+                                    style = "width: 80px;",
+                                    onchange = "this.form.submit()"
+                                })
+                            </div>
+                            <div class="col-auto">
+                                <span class="text-muted small">Tạm tính: <strong class="text-dark">@Model.estimatedValue.ToString("N0") đ</strong></span>
+                            </div>
+                        </div>
+
+                        @if (Model.product.Quantity > 0)
+                        {
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = Model.product.ProductID, quantity = Model.quantity })" class="btn btn-success px-4 py-2 fw-semibold">
+                                🛒 Thêm vào giỏ hàng
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning py-2 mb-0">Sản phẩm tạm thời hết hàng.</div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Description -->
+        <div>
+            <h5 class="fw-bold mb-2 text-dark">Mô tả sản phẩm</h5>
+            <div style="line-height: 1.7; color: #4A5568;">
+                @(string.IsNullOrWhiteSpace(Model.product.ProductDescription) ? "Chưa có mô tả chi tiết cho sản phẩm này." : Model.product.ProductDescription)
+            </div>
+        </div>
+    </div>
+</div>

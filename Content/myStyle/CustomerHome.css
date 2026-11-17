@@ -1,0 +1,191 @@
+/* ================================================================
+   CUSTOMER HOME CSS - SIMPLE & CLEAN NATURE THEME
+   Dự án: 25dh190025_NguyenHuynhHongQuan (Hồng Quân BookMart)
+   ================================================================ */
+
+body {
+    background-color: #F8FAF9;
+    color: #212529;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* BANNER ĐƠN GIẢN */
+.banner {
+    background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.banner-container {
+    padding: 25px 20px;
+}
+
+/* TIÊU ĐỀ MỤC SẢN PHẨM */
+.featureProd h2, .listProduct h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1B4332;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #D8E7DF;
+}
+
+/* CONTAINER SẢN PHẨM NỔI BẬT */
+.feature-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 18px;
+    padding: 8px 4px 16px 4px;
+}
+
+.fproduct-item {
+    width: 230px;
+    flex: 0 0 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+/* GRID SẢN PHẨM MỚI */
+.list-container {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.lproduct-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+.fproduct-item:hover,
+.lproduct-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    border-color: #52B788;
+}
+
+/* HÌNH ẢNH SÁCH */
+.prod-img-box {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    background: #FAFCFA;
+    border-radius: 6px;
+    padding: 8px;
+    border: 1px solid #F0F4F2;
+}
+
+.prod-img-box img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* THÔNG TIN SÁCH */
+.prodPrice {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1B4332;
+    margin-bottom: 4px;
+}
+
+.prodName {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.35;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.prodName a {
+    color: #212529;
+    text-decoration: none;
+}
+
+.prodName a:hover {
+    color: #2D6A4F;
+}
+
+.prodCate {
+    font-size: 0.8rem;
+    color: #4A5568;
+    background: #EDF7F2;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.prodSale {
+    font-size: 0.8rem;
+    color: #718096;
+    margin-bottom: 12px;
+}
+
+/* NÚT THAO TÁC TRÊN CARD */
+.prod-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.btn-card-detail {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #2D6A4F;
+    background: #FFFFFF;
+    border: 1px solid #2D6A4F;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-card-detail:hover {
+    background: #2D6A4F;
+    color: #FFFFFF;
+}
+
+.btn-card-buy {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #FFFFFF !important;
+    background-color: #2D6A4F;
+    border: 1px solid #255841;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-card-buy:hover {
+    background-color: #1B4332;
+}

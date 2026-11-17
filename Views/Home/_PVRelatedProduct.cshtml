@@ -1,0 +1,40 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.ProductDetailsVM
+
+@if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+{
+    <section class="featureProd my-4">
+        <h2>📚 Tác Phẩm Cùng Thể Loại Gợi Ý Cho Bạn</h2>
+        <div class="feature-container">
+            @foreach (var product in Model.RelatedProducts)
+            {
+                <div class="fproduct-item">
+                    <span class="eco-card-badge">🌱 Gợi ý</span>
+                    <div class="prod-img-box">
+                        <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })">
+                            <img src="@Html.DisplayFor(modelItem => product.ProductImage)" alt="@product.ProductName" />
+                        </a>
+                    </div>
+                    <div class="prod-info-box">
+                        <div class="prod-details-group">
+                            <p class="prodPrice">
+                                @product.ProductPrice.ToString("N0") <span>đ</span>
+                            </p>
+                            <p class="prodName">
+                                <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" title="@product.ProductName">
+                                    @Html.DisplayFor(modelItem => product.ProductName)
+                                </a>
+                            </p>
+                            <span class="prodCate">
+                                📖 @(product.Category != null ? product.Category.CategoryName : "Sách")
+                            </span>
+                        </div>
+                        <div class="prod-actions">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" class="btn-card-detail">Chi tiết</a>
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID, quantity = 1 })" class="btn-card-buy">🛒 Mua</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}

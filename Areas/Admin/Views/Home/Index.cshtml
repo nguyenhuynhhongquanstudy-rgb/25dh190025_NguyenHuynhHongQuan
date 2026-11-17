@@ -1,0 +1,110 @@
+@model IEnumerable<_25dh190025_NguyenHuynhHongQuan.Areas.Admin.Controllers.CategoryStatisticVM>
+
+@{
+    ViewBag.Title = "Bảng điều khiển & Thống kê";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-success text-white p-2 mt-2">
+    TỔNG QUAN QUẢN TRỊ & THỐNG KÊ KHO HÀNG
+</h2>
+
+<!-- 4 Thẻ thống kê gọn gàng -->
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-eco h-100 d-flex flex-column justify-content-between">
+            <div>
+                <span class="text-muted fw-semibold small text-uppercase">Danh mục sản phẩm</span>
+                <h3 class="fw-bold my-2" style="color: #1B4332;">@ViewBag.TotalCategories</h3>
+            </div>
+            <div class="mt-2 pt-2 border-top">
+                <a href="@Url.Action("Index", "Categories", new { area = "Admin" })" class="btn btn-sm btn-outline-success w-100">
+                    Quản lý danh mục &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-eco h-100 d-flex flex-column justify-content-between">
+            <div>
+                <span class="text-muted fw-semibold small text-uppercase">Tổng số tựa sách</span>
+                <h3 class="fw-bold my-2" style="color: #2D6A4F;">@ViewBag.TotalProducts</h3>
+            </div>
+            <div class="mt-2 pt-2 border-top">
+                <a href="@Url.Action("Index", "Products", new { area = "Admin" })" class="btn btn-sm btn-outline-success w-100">
+                    Quản lý sản phẩm &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-eco h-100 d-flex flex-column justify-content-between">
+            <div>
+                <span class="text-muted fw-semibold small text-uppercase">Tổng số đơn hàng</span>
+                <h3 class="fw-bold my-2" style="color: #40916C;">@ViewBag.TotalOrders</h3>
+            </div>
+            <div class="mt-2 pt-2 border-top">
+                <a href="@Url.Action("Index", "Orders", new { area = "Admin" })" class="btn btn-sm btn-outline-success w-100">
+                    Quản lý đơn hàng &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-eco h-100 d-flex flex-column justify-content-between">
+            <div>
+                <span class="text-muted fw-semibold small text-uppercase">Doanh thu tích lũy</span>
+                <h3 class="fw-bold my-2" style="color: #D97706;">@(((decimal)ViewBag.TotalRevenue).ToString("N0")) đ</h3>
+            </div>
+            <div class="mt-2 pt-2 border-top">
+                <a href="@Url.Action("Inventory", "Products", new { area = "Admin" })" class="btn btn-sm btn-outline-danger w-100">
+                    Kiểm tra tồn kho &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="bg-success text-white p-2 mt-4">
+    BÁO CÁO CHI TIẾT TỪNG CHỦNG LOẠI HÀNG HÓA
+</h4>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 25%;">LOẠI HÀNG (DANH MỤC)</th>
+                <th class="text-center" style="width: 15%;">SỐ LƯỢNG TỰA</th>
+                <th class="text-center" style="width: 15%;">TỔNG TỒN KHO</th>
+                <th class="text-end" style="width: 15%;">GIÁ CAO NHẤT</th>
+                <th class="text-end" style="width: 15%;">GIÁ THẤP NHẤT</th>
+                <th class="text-end" style="width: 15%;">GIÁ TRUNG BÌNH</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold text-dark">@item.CategoryName</td>
+                        <td class="text-center">@item.ProductCount cuốn</td>
+                        <td class="text-center">@item.TotalStock</td>
+                        <td class="text-end fw-bold text-success">@item.MaxPrice.ToString("N0") đ</td>
+                        <td class="text-end text-muted">@item.MinPrice.ToString("N0") đ</td>
+                        <td class="text-end fw-semibold">@item.AvgPrice.ToString("N0") đ</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-3">Chưa có dữ liệu thống kê nào.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

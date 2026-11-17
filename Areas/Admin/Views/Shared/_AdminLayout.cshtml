@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MyStore Admin Dashboard</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/Site.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+    <link href="~/Content/myStyle/AdminTheme.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #2D6A4F !important; border-bottom: 2px solid #1B4332; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+        <div class="container">
+            <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="navbar-brand d-flex align-items-center gap-2 fw-bold text-decoration-none">
+                <span>🌿</span>
+                <span>MyStore</span>
+                <span class="badge bg-warning text-dark px-2 py-1 ms-1" style="font-size: 0.7rem; font-weight: 700;">ADMIN</span>
+            </a>
+
+            <button type="button" class="navbar-toggler border-0 shadow-none" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-lg-inline-flex justify-content-between">
+                <ul class="navbar-nav mx-auto align-items-center gap-1 my-2 my-lg-0">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Tổng quan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Categories", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Danh mục
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Products", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Inventory", "Products", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Kho hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Customers", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Khách hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Orders", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Đơn hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Users", new { area = "Admin" })" class="nav-link px-3 py-2 text-white">
+                            Tài khoản
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home", new { area = "" })" target="_blank" class="btn btn-outline-light btn-sm px-3 py-1" style="font-size: 0.85rem; border-radius: 4px;">
+                            Xem Website
+                        </a>
+                    </li>
+                    @if (Session["Username"] != null || User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Đăng xuất (" + (Session["FullName"] ?? Session["Username"] ?? User.Identity.Name) + ")", "Logout", "Account", new { area = "" }, new { @class = "nav-link text-warning fw-semibold px-2" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">@Html.ActionLink("Đăng nhập", "Login", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content py-3">
+        @RenderBody()
+        <hr class="mt-5" style="border-color: #D8E7DF;" />
+        <footer class="pb-4">
+            <div class="row align-items-center gy-2">
+                <div class="col-md-6 text-center text-md-start text-muted small">
+                    &copy; @DateTime.Now.Year <strong>MyStore</strong> — Hệ thống quản trị cơ sở dữ liệu bán hàng.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="badge bg-light text-dark border px-3 py-2" style="border-radius: 4px; font-weight: 500;">
+                        Sinh viên: <strong>Nguyễn Huỳnh Hồng Quân</strong> — MSSV: <strong>25DH190025</strong>
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

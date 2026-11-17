@@ -1,0 +1,78 @@
+@model IEnumerable<_25dh190025_NguyenHuynhHongQuan.Models.Customer>
+
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-success text-white p-2 my-3">
+    DANH SÁCH KHÁCH HÀNG
+</h2>
+
+<div class="admin-search-bar mb-3">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            @using (Html.BeginForm("Index", "Customers", FormMethod.Get, new { @class = "d-flex gap-2" }))
+            {
+                <input type="text" name="searchTerm" class="form-control" placeholder="Tìm theo tên khách, SĐT, email, tài khoản..." value="@ViewBag.SearchTerm" />
+                <button type="submit" class="btn btn-primary text-nowrap">
+                    Tìm kiếm
+                </button>
+                if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string))
+                {
+                    <a href="@Url.Action("Index", "Customers")" class="btn btn-outline-secondary text-nowrap">Xóa tìm</a>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 10%;" class="text-center">MÃ KH</th>
+                <th style="width: 22%;">HỌ TÊN KHÁCH HÀNG</th>
+                <th style="width: 15%;">TÊN ĐĂNG NHẬP</th>
+                <th style="width: 15%;">SỐ ĐIỆN THOẠI</th>
+                <th style="width: 18%;">EMAIL</th>
+                <th style="width: 10%;" class="text-center">ĐƠN HÀNG</th>
+                <th style="width: 10%;" class="text-center">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center text-muted fw-bold">#@item.CustomerID</td>
+                        <td>
+                            <strong>@item.CustomerName</strong>
+                            <small class="d-block text-muted">@item.CustomerAddress</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">@item.Username</span>
+                        </td>
+                        <td>@item.CustomerPhone</td>
+                        <td class="text-muted small">@item.CustomerEmail</td>
+                        <td class="text-center">
+                            <span class="badge bg-success">
+                                @(item.Orders != null ? item.Orders.Count() : 0) đơn
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.CustomerID }, new { @class = "btn btn-info btn-sm text-white" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-3">Không tìm thấy khách hàng nào phù hợp.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

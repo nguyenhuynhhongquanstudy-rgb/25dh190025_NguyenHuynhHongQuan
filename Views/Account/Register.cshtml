@@ -1,0 +1,105 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.RegisterVM
+@{
+    ViewBag.Title = "Đăng ký tài khoản mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .auth-card {
+        max-width: 620px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(27, 67, 50, 0.08);
+        padding: 40px;
+        border: 1px solid #D8F3DC;
+    }
+    .auth-card .form-control {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    .auth-label {
+        font-weight: 700;
+        color: #1B4332;
+        font-size: 0.92rem;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <span style="display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg, #52B788 0%, #2D6A4F 100%); font-size:26px; box-shadow: 0 4px 12px rgba(82,183,136,0.35);" class="mb-2">🌱</span>
+            <h3 class="fw-bold mb-1" style="color: #1B4332;">ĐĂNG KÝ TÀI KHOẢN</h3>
+            <p class="text-muted small">Trở thành thành viên của <strong>MyStore</strong> để nhận nhiều ưu đãi</p>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger py-2 mb-3 small rounded-3">
+                ⚠️ @ViewBag.Error
+            </div>
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger small mb-3" })
+
+        @using (Html.BeginForm("Register", "Account", new { area = "" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control rounded-pill", placeholder = "Tên đăng nhập...", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Họ và tên khách hàng <span class="text-danger">*</span></label>
+                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control rounded-pill", placeholder = "Họ và tên...", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Mật khẩu <span class="text-danger">*</span></label>
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control rounded-pill", placeholder = "Nhập mật khẩu...", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control rounded-pill", placeholder = "Nhập lại mật khẩu...", required = "required" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Số điện thoại <span class="text-danger">*</span></label>
+                    @Html.EditorFor(model => model.CustomerPhone, new { htmlAttributes = new { @class = "form-control rounded-pill", placeholder = "Số điện thoại liên hệ...", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.CustomerPhone, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label auth-label">Địa chỉ Email <span class="text-danger">*</span></label>
+                    @Html.EditorFor(model => model.CustomerEmail, new { htmlAttributes = new { @class = "form-control rounded-pill", placeholder = "email@example.com", required = "required", type = "email" } })
+                    @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label auth-label">Địa chỉ nhận hàng mặc định <span class="text-danger">*</span></label>
+                @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control rounded-pill", placeholder = "Số nhà, tên đường, phường/xã, quận/huyện...", required = "required" } })
+                @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger small mt-1 d-block" })
+            </div>
+
+            <button type="submit" class="btn text-white w-100 py-3 rounded-pill fw-bold shadow-sm mb-3" style="background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%); font-size: 1.05rem; border: none;">
+                🌱 Hoàn tất đăng ký thành viên
+            </button>
+
+            <div class="text-center pt-2 border-top">
+                <span class="text-muted small">Đã có tài khoản?</span>
+                @Html.ActionLink("Đăng nhập tại đây", "Login", "Account", new { area = "" }, new { @class = "fw-bold text-success text-decoration-none small ms-1" })
+            </div>
+        }
+    </div>
+</div>

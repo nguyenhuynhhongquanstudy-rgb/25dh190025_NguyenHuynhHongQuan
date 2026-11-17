@@ -1,0 +1,75 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.ProductSearchVM
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string sort = Model.SortOrder ?? "";
+}
+
+<div class="d-flex align-items-center justify-content-between my-3">
+    <h2 class="bg-success text-white p-2 mb-0 flex-grow-1 me-3">
+        DANH SÁCH SẢN PHẨM
+    </h2>
+    <div>
+        @Html.ActionLink("+ Thêm sản phẩm mới", "Create", null, new { @class = "btn btn-success fw-semibold text-nowrap px-3 py-2" })
+    </div>
+</div>
+
+<!-- Khung tìm kiếm đơn giản -->
+<div class="admin-search-bar mb-3">
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        <div class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small fw-bold">Từ khóa tìm kiếm</label>
+                @Html.TextBoxFor(m => m.SearchTerm, new
+                {
+                    @class = "form-control",
+                    placeholder = "Tên tác phẩm, tác giả hoặc thể loại..."
+                })
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Giá tối thiểu</label>
+                @Html.TextBoxFor(m => m.MinPrice, new
+                {
+                    @class = "form-control",
+                    placeholder = "0",
+                    type = "number"
+                })
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Giá tối đa</label>
+                @Html.TextBoxFor(m => m.MaxPrice, new
+                {
+                    @class = "form-control",
+                    placeholder = "Tối đa",
+                    type = "number"
+                })
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Sắp xếp</label>
+                <select name="sortOrder" class="form-select">
+                    <option value="name_asc" @(sort == "name_asc" ? "selected" : "")>Tên A - Z</option>
+                    <option value="name_desc" @(sort == "name_desc" ? "selected" : "")>Tên Z - A</option>
+                    <option value="price_asc" @(sort == "price_asc" ? "selected" : "")>Giá tăng dần</option>
+                    <option value="price_desc" @(sort == "price_desc" ? "selected" : "")>Giá giảm dần</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-flex gap-1">
+                <button type="submit" class="btn btn-primary w-100">
+                    Tìm kiếm
+                </button>
+                @if (!string.IsNullOrEmpty(Model.SearchTerm) || Model.MinPrice.HasValue || Model.MaxPrice.HasValue || !string.IsNullOrEmpty(Model.SortOrder))
+                {
+                    <a href="@Url.Action("Index", "Products")" class="btn btn-outline-secondary" title="Xóa bộ lọc">✕</a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Kết quả danh sách sản phẩm -->
+@Html.Partial("ProductListPV", Model)

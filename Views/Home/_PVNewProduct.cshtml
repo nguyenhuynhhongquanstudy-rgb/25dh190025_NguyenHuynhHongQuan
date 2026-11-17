@@ -1,0 +1,59 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.HomeProductVM
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (Model.NewProducts != null && Model.NewProducts.Any())
+{
+    <section class="container-fluid listProduct my-4">
+        <h2>Sách mới nhất</h2>
+        <ul class="list-container">
+            @foreach (var product in Model.NewProducts)
+            {
+                <li class="lproduct-item">
+                    <div class="prod-img-box">
+                        <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })">
+                            <img src="@Html.DisplayFor(modelItem => product.ProductImage)" alt="@product.ProductName" />
+                        </a>
+                    </div>
+                    <div class="prod-info-box">
+                        <div class="prod-details-group">
+                            <p class="prodPrice">
+                                @product.ProductPrice.ToString("N0") đ
+                            </p>
+                            <p class="prodName">
+                                <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" title="@product.ProductName">
+                                    @Html.DisplayFor(modelItem => product.ProductName)
+                                </a>
+                            </p>
+                            <span class="prodCate">
+                                @(product.Category != null ? product.Category.CategoryName : "Sách")
+                            </span>
+                            <p class="prodSale">
+                                Đã bán: @(product.SoldQuantity > 0 ? product.SoldQuantity : product.OrderDetails.Count) &nbsp;|&nbsp; Còn: @product.Quantity
+                            </p>
+                        </div>
+                        <div class="prod-actions">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" class="btn-card-detail">Chi tiết</a>
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID, quantity = 1 })" class="btn-card-buy">Mua ngay</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <div class="pagination-container my-4">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Index", new
+        {
+            page,
+            searchTerm = Model.SearchTerm
+        }))
+    </div>
+}
+else
+{
+    <div class="alert alert-light text-center my-4 py-4 border">
+        <p class="mb-0 text-muted">Hiện tại chưa có sản phẩm nào được hiển thị. Vui lòng thêm sản phẩm từ trang Quản trị.</p>
+    </div>
+}

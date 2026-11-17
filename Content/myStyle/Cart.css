@@ -1,0 +1,112 @@
+/* ================================================================
+   CART & CHECKOUT CSS - MYSTORE CLEAN NATURE THEME
+   Dự án: 25dh190025_NguyenHuynhHongQuan
+   ================================================================ */
+
+.cart-container {
+    padding: 30px 15px;
+}
+
+.cart-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    border: 1px solid #DDF0E4;
+    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.06);
+    padding: 24px;
+    margin-bottom: 25px;
+}
+
+.cart-table thead th {
+    background: #F3FAF6 !important;
+    color: #1B4332 !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #D8F3DC !important;
+    font-size: 0.9rem !important;
+    text-transform: uppercase;
+}
+
+.cart-table td {
+    vertical-align: middle;
+    padding: 16px 12px;
+    border-color: #EEF7F2;
+}
+
+.cart-prod-img {
+    height: 80px;
+    width: 65px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #F9FBFA;
+    padding: 4px;
+    border: 1px solid #E2EFE7;
+}
+
+.cart-qty-input {
+    width: 65px !important;
+    text-align: center;
+    border-radius: 8px !important;
+    font-weight: 700;
+}
+
+.summary-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    border: 1.5px solid #D8F3DC;
+    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.08);
+    padding: 24px;
+}
+
+.summary-total {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1B4332;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #6B7280;
+}
+
+.step-item.active {
+    color: #1B4332;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #E5E7EB;
+    color: #4B5563;
+    font-size: 0.9rem;
+}
+
+.step-item.active .step-number {
+    background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%);
+    color: #FFFFFF;
+    box-shadow: 0 3px 8px rgba(27, 67, 50, 0.3);
+}
+
+.step-divider {
+    width: 40px;
+    height: 2px;
+    background: #D1D5DB;
+}
+
+.step-divider.active {
+    background: #52B788;
+}

@@ -1,0 +1,84 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.ProductSearchVM
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-2">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-2">⚠️ @TempData["Error"]</div>
+}
+
+@if (Model.Products != null && Model.Products.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th style="width: 12%;" class="text-center">HÌNH ẢNH</th>
+                    <th style="width: 30%;">TÊN SẢN PHẨM</th>
+                    <th style="width: 15%;">ĐƠN GIÁ</th>
+                    <th style="width: 13%;" class="text-center">SỐ LƯỢNG TỒN</th>
+                    <th style="width: 15%;">CHỦNG LOẠI</th>
+                    <th style="width: 15%;" class="text-center">THAO TÁC</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <img src="@Html.DisplayFor(modelItem => item.ProductImage)" alt="@item.ProductName" style="max-height: 70px; max-width: 65px; object-fit: contain;" />
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.ProductName)</strong>
+                            <small class="d-block text-muted">Mã SP: #@item.ProductID</small>
+                        </td>
+                        <td class="fw-bold" style="color: #1B4332;">
+                            @item.ProductPrice.ToString("N0") đ
+                        </td>
+                        <td class="text-center">
+                            @if (item.Quantity > 0)
+                            {
+                                <span class="badge bg-success px-2 py-1">@item.Quantity</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger px-2 py-1">Hết hàng (0)</span>
+                            }
+                        </td>
+                        <td>
+                            @(item.Category != null ? item.Category.CategoryName : "Chưa phân loại")
+                        </td>
+                        <td class="text-center">
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm me-1" })
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-info btn-sm text-white me-1" })
+                            @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Hiển thị phân trang -->
+    <div class="pagination-container my-3">
+        @Html.PagedListPager(Model.Products, page => Url.Action("Index", new
+        {
+            page,
+            searchTerm = Model.SearchTerm,
+            minPrice = Model.MinPrice,
+            maxPrice = Model.MaxPrice,
+            sortOrder = Model.SortOrder
+        }))
+    </div>
+}
+else
+{
+    <div class="alert alert-light text-center my-3 py-4 border">
+        <p class="mb-0 text-muted">Chưa có sản phẩm nào trong kho dữ liệu. Hãy bấm nút <strong>"+ Thêm sản phẩm mới"</strong> ở góc trên bên phải để bắt đầu thêm sản phẩm.</p>
+    </div>
+}

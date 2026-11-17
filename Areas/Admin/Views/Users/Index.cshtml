@@ -1,0 +1,121 @@
+@model IEnumerable<_25dh190025_NguyenHuynhHongQuan.Models.User>
+
+@{
+    ViewBag.Title = "Quản lý tài khoản & Phân quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string currentRoleFilter = ViewBag.RoleFilter as string ?? "";
+    string currentSearch = ViewBag.SearchTerm as string ?? "";
+}
+
+<div class="d-flex align-items-center justify-content-between my-3">
+    <h2 class="bg-success text-white p-2 mb-0 flex-grow-1 me-3">
+        QUẢN LÝ TÀI KHOẢN & PHÂN QUYỀN
+    </h2>
+    <div>
+        @Html.ActionLink("+ Thêm tài khoản mới", "Create", null, new { @class = "btn btn-success fw-semibold text-nowrap px-3 py-2" })
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-2">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-2">⚠️ @TempData["Error"]</div>
+}
+
+<!-- Bộ lọc phân loại vai trò -->
+<div class="admin-search-bar mb-3">
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+        <strong class="me-2 text-dark">Phân loại vai trò:</strong>
+        <a href="@Url.Action("Index", "Users", new { roleFilter = "", searchTerm = currentSearch })"
+           class="btn btn-sm @(string.IsNullOrEmpty(currentRoleFilter) ? "btn-dark fw-bold" : "btn-outline-dark")">
+            Tất cả tài khoản (@ViewBag.TotalCount)
+        </a>
+        <a href="@Url.Action("Index", "Users", new { roleFilter = "Admin", searchTerm = currentSearch })"
+           class="btn btn-sm @(currentRoleFilter == "Admin" ? "btn-danger fw-bold" : "btn-outline-danger")">
+            Quản trị viên (Admin) (@ViewBag.AdminCount)
+        </a>
+        <a href="@Url.Action("Index", "Users", new { roleFilter = "Customer", searchTerm = currentSearch })"
+           class="btn btn-sm @(currentRoleFilter == "Customer" ? "btn-success fw-bold" : "btn-outline-success")">
+            Khách hàng (Customer) (@ViewBag.CustomerCount)
+        </a>
+    </div>
+
+    @using (Html.BeginForm("Index", "Users", FormMethod.Get, new { @class = "d-flex gap-2" }))
+    {
+        <input type="hidden" name="roleFilter" value="@currentRoleFilter" />
+        <input type="text" name="searchTerm" class="form-control" placeholder="Tìm theo tên đăng nhập, họ tên, email..." value="@ViewBag.SearchTerm" />
+        <button type="submit" class="btn btn-primary text-nowrap">
+            Tìm kiếm
+        </button>
+        if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string) || !string.IsNullOrEmpty(currentRoleFilter))
+        {
+            <a href="@Url.Action("Index", "Users")" class="btn btn-outline-secondary text-nowrap">Xóa lọc</a>
+        }
+    }
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 20%;">TÊN ĐĂNG NHẬP</th>
+                <th style="width: 22%;">HỌ TÊN LIÊN KẾT</th>
+                <th style="width: 20%;">SỐ ĐIỆN THOẠI / EMAIL</th>
+                <th style="width: 20%;" class="text-center">VAI TRÒ & QUYỀN HẠN</th>
+                <th style="width: 18%;" class="text-center">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    var cust = item.Customers.FirstOrDefault();
+                    string role = (item.UserRole ?? "").Trim();
+                    bool isAdmin = role.Equals("Admin", StringComparison.OrdinalIgnoreCase) || role.Equals("A", StringComparison.OrdinalIgnoreCase);
+                    <tr>
+                        <td>
+                            <strong>@item.Username</strong>
+                            @if (string.Equals(item.Username, Session["Username"] as string, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <span class="badge bg-warning text-dark ms-1">Đang đăng nhập</span>
+                            }
+                        </td>
+                        <td>@(cust != null ? cust.CustomerName : "—")</td>
+                        <td>
+                            @(cust != null ? cust.CustomerPhone : "")
+                            @if (cust != null && !string.IsNullOrEmpty(cust.CustomerEmail))
+                            {
+                                <br /><small class="text-muted">@cust.CustomerEmail</small>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (isAdmin)
+                            {
+                                <span class="badge bg-danger px-2 py-1">Quản trị viên (Admin)</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success px-2 py-1">Khách hàng (Customer)</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.Username }, new { @class = "btn btn-primary btn-sm me-1" })
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.Username }, new { @class = "btn btn-info btn-sm text-white me-1" })
+                            @Html.ActionLink("Xóa", "Delete", new { id = item.Username }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">Không tìm thấy tài khoản nào phù hợp.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

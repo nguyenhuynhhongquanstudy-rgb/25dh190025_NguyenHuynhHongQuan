@@ -1,0 +1,55 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.HomeProductVM
+
+@{
+    ViewBag.Title = "Trang chủ - MyStore";
+    <link href="~/Content/myStyle/CustomerHome.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+}
+
+<!-- Banner đơn giản, thanh nhã -->
+<section class="banner my-3">
+    <div class="banner-container container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-12 text-center text-lg-start">
+                <h1 class="fw-bold text-white mb-2" style="font-size: 2rem;">
+                    Chào mừng đến với MyStore
+                </h1>
+                <p class="mb-3 text-white-50" style="font-size: 1.05rem;">
+                    Không gian tri thức xanh — Khám phá hàng ngàn đầu sách hay mỗi ngày với mức giá tốt nhất!
+                </p>
+                <div class="d-flex gap-2 justify-content-center justify-content-lg-start">
+                    <a href="@Url.Action("ProductCategory", "Home")" class="btn btn-success px-4 py-2 fw-semibold">
+                        Xem tất cả sách
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-center">
+                <span style="font-size: 70px;">📚</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Phần tìm kiếm đơn giản -->
+<section class="container my-4">
+    <div class="p-3 bg-white rounded border shadow-sm mx-auto" style="max-width: 650px;">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.SearchTerm, new
+                {
+                    @class = "form-control",
+                    placeholder = "Nhập tên sách, tác giả hoặc thể loại cần tìm..."
+                })
+                <button type="submit" class="btn btn-success px-4">
+                    Tìm kiếm
+                </button>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- PHẦN SẢN PHẨM NỔI BẬT -->
+@Html.Partial("_PVFeatureProduct", Model)
+
+<!-- PHẦN SẢN PHẨM MỚI -->
+@Html.Partial("_PVNewProduct", Model)

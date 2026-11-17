@@ -1,0 +1,79 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.LoginVM
+@{
+    ViewBag.Title = "Đăng nhập tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .auth-card {
+        max-width: 500px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(27, 67, 50, 0.08);
+        padding: 40px;
+        border: 1px solid #D8F3DC;
+    }
+    .auth-card .form-control {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    .auth-label {
+        font-weight: 700;
+        color: #1B4332;
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <span style="display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg, #52B788 0%, #2D6A4F 100%); font-size:26px; box-shadow: 0 4px 12px rgba(82,183,136,0.35);" class="mb-2">🌿</span>
+            <h3 class="fw-bold mb-1" style="color: #1B4332;">ĐĂNG NHẬP</h3>
+            <p class="text-muted small">Chào mừng bạn quay lại hệ thống <strong>MyStore</strong></p>
+        </div>
+
+        @if (TempData["Notice"] != null)
+        {
+            <div class="alert alert-success py-2 mb-3 small rounded-3">
+                ℹ️ @TempData["Notice"]
+            </div>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger py-2 mb-3 small rounded-3">
+                ⚠️ @ViewBag.Error
+            </div>
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger small mb-3" })
+
+        @using (Html.BeginForm("Login", "Account", new { area = "" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label auth-label">Tên đăng nhập</label>
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control rounded-pill", placeholder = "Nhập tên đăng nhập...", required = "required" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger small mt-1 d-block" })
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label auth-label">Mật khẩu</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control rounded-pill", placeholder = "Nhập mật khẩu...", required = "required" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small mt-1 d-block" })
+            </div>
+
+            <button type="submit" class="btn text-white w-100 py-3 rounded-pill fw-bold shadow-sm mb-3" style="background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%); font-size: 1.05rem; border: none;">
+                Đăng nhập ngay
+            </button>
+
+            <div class="text-center pt-2 border-top">
+                <span class="text-muted small">Bạn chưa có tài khoản?</span>
+                @Html.ActionLink("Đăng ký tài khoản mới", "Register", "Account", new { area = "" }, new { @class = "fw-bold text-success text-decoration-none small ms-1" })
+            </div>
+        }
+    </div>
+</div>

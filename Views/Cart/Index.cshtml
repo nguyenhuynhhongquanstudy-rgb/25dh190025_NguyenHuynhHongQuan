@@ -1,0 +1,152 @@
+@model _25dh190025_NguyenHuynhHongQuan.Models.ViewModel.Cart
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/myStyle/Cart.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+
+<script language="JavaScript">
+    function cartUpdateQuantity(id, newQuantity) {
+        if (newQuantity < 1) return;
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '@Url.Action("UpdateQuantity", "Cart")';
+
+        const idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'id';
+        idInput.value = id;
+        form.appendChild(idInput);
+
+        const quantityInput = document.createElement('input');
+        quantityInput.type = 'hidden';
+        quantityInput.name = 'quantity';
+        quantityInput.value = newQuantity;
+        form.appendChild(quantityInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+<div class="container py-3">
+    <h3 class="fw-bold text-dark mb-3">GIỎ HÀNG CỦA BẠN</h3>
+
+    @if (TempData["CartError"] != null)
+    {
+        <div class="alert alert-warning">⚠️ @TempData["CartError"]</div>
+    }
+
+    @if (!Model.Items.Any())
+    {
+        <div class="card text-center py-5 bg-white border">
+            <h4 class="fw-bold text-dark">Giỏ hàng của bạn đang trống</h4>
+            <p class="text-muted mb-3">Hãy chọn những tựa sách yêu thích và thêm vào giỏ hàng nhé.</p>
+            <div>
+                <a href="@Url.Action("ProductCategory", "Home")" class="btn btn-success px-4">
+                    Xem danh mục sách
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- Cột danh sách sản phẩm -->
+            <div class="col-lg-8">
+                <div class="card p-3 bg-white border">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <strong class="text-dark">Sản phẩm trong giỏ (@Model.Items.Sum(i => i.Quantity) cuốn)</strong>
+                        <a href="@Url.Action("ClearCart", "Cart")" class="btn btn-outline-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa toàn bộ sản phẩm khỏi giỏ hàng?');">
+                            Xóa tất cả
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Sách</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-end">Đơn giá</th>
+                                    <th class="text-end">Thành tiền</th>
+                                    <th style="width: 40px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="@item.ProductImage" alt="@item.ProductName" style="height: 60px; width: 50px; object-fit: contain;" />
+                                                <div>
+                                                    <a href="@Url.Action("ProductDetails", "Home", new { id = item.ProductID })" class="fw-bold text-dark text-decoration-none">
+                                                        @item.ProductName
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="number" value="@item.Quantity" min="1" class="form-control form-control-sm mx-auto text-center" style="width: 65px;" onchange="cartUpdateQuantity(@item.ProductID, this.value)" />
+                                        </td>
+                                        <td class="text-end">
+                                            @item.UnitPrice.ToString("N0") đ
+                                        </td>
+                                        <td class="text-end fw-bold text-success">
+                                            @item.TotalPrice.ToString("N0") đ
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("RemoveItem", "Cart", new { id = item.ProductID })" class="text-danger fw-bold text-decoration-none" title="Xóa">
+                                                ✕
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-2">
+                        <a href="@Url.Action("ProductCategory", "Home")" class="text-success text-decoration-none small fw-semibold">
+                            ← Tiếp tục chọn sách khác
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột tóm tắt đơn hàng -->
+            <div class="col-lg-4">
+                <div class="card p-3 bg-white border">
+                    <h5 class="fw-bold mb-3 pb-2 border-bottom">Tóm tắt đơn hàng</h5>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tổng số lượng:</span>
+                        <strong>@Model.Items.Sum(i => i.Quantity) cuốn</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tạm tính:</span>
+                        <strong>@Model.TotalValue().ToString("N0") đ</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Phí vận chuyển:</span>
+                        <span class="text-success">Miễn phí</span>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold text-dark">Tổng thanh toán:</span>
+                        <span class="fs-4 fw-bold text-success">@Model.TotalValue().ToString("N0") đ</span>
+                    </div>
+
+                    <a href="@Url.Action("Checkout", "Order")" class="btn btn-success w-100 py-2 fw-semibold">
+                        Tiến hành đặt hàng
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

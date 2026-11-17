@@ -1,0 +1,152 @@
+/* ================================================================
+   MYSTORE - GLOBAL STYLES & CLEAN NATURE THEME
+   Dự án: 25dh190025_NguyenHuynhHongQuan (Nguyễn Huỳnh Hồng Quân)
+   ================================================================ */
+
+:root {
+    --eco-primary: #2D6A4F;
+    --eco-dark: #1B4332;
+    --eco-light: #52B788;
+    --eco-mint: #74C69D;
+    --eco-bg: #F8FAF9;
+    --eco-text: #212529;
+    --eco-border: #D8E7DF;
+}
+
+body {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    background-color: var(--eco-bg);
+    color: var(--eco-text);
+    line-height: 1.55;
+    font-size: 15px;
+}
+
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-height: 60vh;
+}
+
+/* Navbar */
+.navbar-nature {
+    background-color: #2D6A4F !important;
+    border-bottom: 2px solid #1B4332;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nature .navbar-brand {
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.navbar-nature .nav-link {
+    color: #EDF7F2 !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 14px !important;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.navbar-nature .nav-link:hover {
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Dropdown */
+.dropdown-menu {
+    border-radius: 6px !important;
+    border: 1px solid #D1E3D8 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.dropdown-item {
+    font-weight: 500;
+    color: #2D3748 !important;
+    padding: 7px 14px !important;
+}
+
+.dropdown-item:hover {
+    background-color: #E8F5EE !important;
+    color: #1B4332 !important;
+}
+
+/* Nút bấm chuẩn, đơn giản */
+.btn-primary {
+    background-color: #2D6A4F !important;
+    border-color: #255841 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-primary:hover {
+    background-color: #1B4332 !important;
+    border-color: #163628 !important;
+}
+
+.btn-success {
+    background-color: #40916C !important;
+    border-color: #357A5A !important;
+    color: #FFFFFF !important;
+}
+
+.btn-success:hover {
+    background-color: #2D6A4F !important;
+    border-color: #255841 !important;
+}
+
+.btn-outline-primary {
+    color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+}
+
+.btn-outline-success {
+    color: #40916C !important;
+    border-color: #40916C !important;
+}
+
+.btn-outline-success:hover {
+    background-color: #40916C !important;
+    color: #FFFFFF !important;
+}
+
+/* Card */
+.card {
+    border-radius: 8px !important;
+    border: 1px solid #D8E7DF !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    border-radius: 6px !important;
+    border: 1px solid #CED4DA !important;
+    font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #52B788 !important;
+    box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2) !important;
+}
+
+/* Footer */
+footer {
+    background-color: #1B4332;
+    color: #D8EFE3;
+}
+
+footer a {
+    color: #A7D7BC;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
