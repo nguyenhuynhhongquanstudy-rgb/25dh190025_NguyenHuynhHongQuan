@@ -94,7 +94,8 @@
 
     <!-- Thanh theo dõi tình trạng giao hàng -->
     <div class="card mb-4 shadow-sm border-0" style="border-radius: 12px; padding: 20px; background: #fafafa;">
-        <h4 class="text-center" style="margin-bottom: 20px;">Tình trạng giao hàng hiện tại:
+        <h4 class="text-center" style="margin-bottom: 20px;">
+            Tình trạng giao hàng hiện tại:
             @if (deliveryStatus == "Chưa giao hàng")
             {
                 <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 8px 14px;">Chưa giao hàng (Đang chuẩn bị hàng)</span>
@@ -268,27 +269,37 @@
         <div class="card-header bg-white py-3 px-4 border-bottom">
             <h5 class="mb-0 fw-bold text-dark">🛒 CHI TIẾT SẢN PHẨM</h5>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body px-4 py-2">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead style="background-color: #f8f9fa;">
+                <table class="table align-middle mb-0">
+                    <thead>
                         <tr>
-                            <th style="padding: 14px 20px;">Sản phẩm</th>
-                            <th class="text-center" style="width: 120px;">Số lượng</th>
-                            <th class="text-end" style="width: 160px;">Đơn giá</th>
-                            <th class="text-end" style="width: 180px; padding-right: 20px;">Thành tiền</th>
+                            <th colspan="2">Sản phẩm</th>
+                            <th style="width: 110px;">Số lượng</th>
+                            <th style="width: 140px;">Đơn giá</th>
+                            <th style="width: 140px;">Thành tiền</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.OrderDetails)
                         {
                             <tr>
-                                <td style="padding: 14px 20px;">
-                                    <strong>@(item.Product != null ? item.Product.ProductName : "Sản phẩm #" + item.ProductID)</strong>
+                                <!-- Ảnh sách -->
+                                <td style="width: 130px; padding: 16px 12px 16px 0;">
+                                    @if (item.Product != null)
+                                    {
+                                        <img src="@item.Product.ProductImage" alt="@item.Product.ProductName"
+                                             style="width: 100px; height: auto; object-fit: contain;" />
+                                    }
                                 </td>
-                                <td class="text-center">@item.Quantity</td>
-                                <td class="text-end">@item.UnitPrice.ToString("N0") VNĐ</td>
-                                <td class="text-end fw-bold text-danger" style="padding-right: 20px;">@((item.Quantity * item.UnitPrice).ToString("N0")) VNĐ</td>
+                                <!-- Tên sách + mã SP -->
+                                <td>
+                                    <strong>@(item.Product != null ? item.Product.ProductName : "Sản phẩm #" + item.ProductID)</strong>
+                                    <small class="d-block text-muted">Mã SP: #@item.ProductID</small>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@item.UnitPrice.ToString("N0")</td>
+                                <td>@((item.Quantity * item.UnitPrice).ToString("N0"))</td>
                             </tr>
                         }
                     </tbody>

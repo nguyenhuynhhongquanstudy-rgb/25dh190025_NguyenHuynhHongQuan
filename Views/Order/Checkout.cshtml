@@ -101,9 +101,9 @@
                     <h5 class="fw-bold mb-3 pb-2 border-bottom">Đơn hàng của bạn</h5>
 
                     <div style="max-height: 250px; overflow-y: auto;" class="mb-3">
-                        @if (Model.cart != null && Model.cart.Items != null)
+                        @if (Model.CartItems != null && Model.CartItems.Any())
                         {
-                            foreach (var item in Model.cart.Items)
+                            foreach (var item in Model.CartItems)
                             {
                                 <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                     <div>
